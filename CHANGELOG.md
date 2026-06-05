@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.3.2] - 2026-06-05
+### Fixed
+- Fixed an `InvalidOperationException` thrown natively by PowerShell's `Invoke-RestMethod` when BSN.cloud APIs improperly return a `Location` header downgrading from `https` to `http` during token creation (`MaximumRedirection = 0`).
+
 ## [0.3.1] - 2026-06-05
 ### Fixed
 - Fixed an issue in `Connect-BsnCloud` where the auto-selected network connection object was being outputted to the pipeline twice.

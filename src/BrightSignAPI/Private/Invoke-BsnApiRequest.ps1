@@ -62,10 +62,11 @@ function Invoke-BsnApiRequest {
     $headers['Accept'] = 'application/json'
 
     $invokeParams = @{
-        Method      = $Method
-        Uri         = $url
-        Headers     = $headers
-        ErrorAction = 'Stop'
+        Method             = $Method
+        Uri                = $url
+        Headers            = $headers
+        MaximumRedirection = 0
+        ErrorAction        = 'Stop'
     }
 
     if ($null -ne $Body) {
