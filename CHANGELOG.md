@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.3.3] - 2026-06-05
+### Changed
+- Replaced `Invoke-RestMethod` with native `[System.Net.HttpWebRequest]` inside `Invoke-BsnApiRequest`. This completely bypasses a known bug in PowerShell 5.1/7.0 where `Invoke-RestMethod` explicitly throws an `InvalidOperationException` upon encountering a redirect loop or HTTPS-to-HTTP downgrade (`Location` header) from the BSN.cloud provisioning API.
+
 ## [0.3.2] - 2026-06-05
 ### Fixed
 - Fixed an `InvalidOperationException` thrown natively by PowerShell's `Invoke-RestMethod` when BSN.cloud APIs improperly return a `Location` header downgrading from `https` to `http` during token creation (`MaximumRedirection = 0`).

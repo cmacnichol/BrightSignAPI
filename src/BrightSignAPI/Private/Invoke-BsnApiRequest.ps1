@@ -61,32 +61,43 @@ function Invoke-BsnApiRequest {
     $headers = Get-BsnAuthHeader -Connection $Connection
     $headers['Accept'] = 'application/json'
 
-    $invokeParams = @{
-        Method             = $Method
-        Uri                = $url
-        Headers            = $headers
-        MaximumRedirection = 0
-        ErrorAction        = 'Stop'
+    $req = [System.Net.HttpWebRequest]::Create($url)
+    $req.Method = $Method
+    $req.AllowAutoRedirect = $false
+
+    foreach ($key in $headers.Keys) {
+        if ($key -eq 'Accept') { $req.Accept = $headers[$key] }
+        elseif ($key -eq 'Content-Type') { $req.ContentType = $headers[$key] }
+        elseif ($key -eq 'User-Agent') { $req.UserAgent = $headers[$key] }
+        else { $req.Headers.Add($key, $headers[$key]) }
     }
 
     if ($null -ne $Body) {
-        $invokeParams.ContentType = 'application/json'
-        if ($Body -is [string]) {
-            $invokeParams.Body = $Body
-        } else {
-            $invokeParams.Body = ($Body | ConvertTo-Json -Depth 10 -Compress)
+        if (-not $req.ContentType) { $req.ContentType = 'application/json' }
+        $bodyStr = if ($Body -is [string]) { $Body } else { $Body | ConvertTo-Json -Depth 10 -Compress }
+        Write-Debug "[Invoke-BsnApiRequest] Body: $bodyStr"
+        $bytes = [System.Text.Encoding]::UTF8.GetBytes($bodyStr)
+        $req.ContentLength = $bytes.Length
+        $reqStream = $req.GetRequestStream()
+        $reqStream.Write($bytes, 0, $bytes.Length)
+        $reqStream.Close()
+    } else {
+        if ($Method -eq 'Post' -or $Method -eq 'Put') {
+            $req.ContentLength = 0
         }
     }
 
-    Write-Debug "[Invoke-BsnApiRequest] Calling $Method $url"
-    if ($invokeParams.Body) {
-        Write-Debug "[Invoke-BsnApiRequest] Body: $($invokeParams.Body)"
-    }
-
     try {
-        $response = Invoke-RestMethod @invokeParams
+        $resp = $req.GetResponse()
+        $reader = [System.IO.StreamReader]::new($resp.GetResponseStream())
+        $respBody = $reader.ReadToEnd()
+        $reader.Close()
         Write-Debug "[Invoke-BsnApiRequest] Success."
-        return $response
+        if ($resp.ContentType -match 'json') {
+            if ([string]::IsNullOrWhiteSpace($respBody)) { return $null }
+            return ($respBody | ConvertFrom-Json)
+        }
+        return $respBody
     }
     catch {
         Write-Debug "[Invoke-BsnApiRequest] FAILED. Exception: $($_.Exception.Message)"

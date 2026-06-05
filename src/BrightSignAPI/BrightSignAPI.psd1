@@ -1,6 +1,6 @@
 @{
     RootModule        = 'BrightSignAPI.psm1'
-    ModuleVersion     = '0.3.2'
+    ModuleVersion     = '0.3.3'
     GUID              = 'b1d4e7c2-9a3f-4c2e-8d6a-0f1e2a3b4c5d'
     Author            = 'Christopher Macnichol'
     Description       = 'Provisions BrightSign signage players: fetches a BSN.cloud registration token via the Provisioning API (OAuth2 client-credentials) and clones a reference setup folder, rewriting only the per-player values in setup.json.'
