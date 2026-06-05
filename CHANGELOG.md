@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.3.4] - 2026-06-05
+### Fixed
+- Fixed a bug in `New-BsnPlayer` where an auto-fetched Registration Token was accidentally injected into `setup.json` as a full JSON object instead of the raw string.
+- Fixed a pipeline scoping bug in `New-BsnPlayer` where provisioning a batch of devices via CSV without supplying a Registration Token resulted in all devices receiving the exact same auto-generated token. 
+
 ## [0.3.3] - 2026-06-05
 ### Changed
 - Replaced `Invoke-RestMethod` with native `[System.Net.HttpWebRequest]` inside `Invoke-BsnApiRequest`. This completely bypasses a known bug in PowerShell 5.1/7.0 where `Invoke-RestMethod` explicitly throws an `InvalidOperationException` upon encountering a redirect loop or HTTPS-to-HTTP downgrade (`Location` header) from the BSN.cloud provisioning API.

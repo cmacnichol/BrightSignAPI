@@ -155,9 +155,11 @@ function New-BsnPlayer {
         }
 
         # 1. Fetch a token if not supplied
-        if (-not $RegistrationToken) {
+        $activeToken = $RegistrationToken
+        if (-not $activeToken) {
             Write-Verbose 'No token supplied; requesting one from BSN.cloud.'
-            $RegistrationToken = New-BsnProvisioningToken -Connection $Connection
+            $tokenObj = New-BsnProvisioningToken -Connection $Connection
+            $activeToken = $tokenObj.token
         }
 
         # 2. Clone the folder
@@ -202,7 +204,7 @@ function New-BsnPlayer {
             }
         }
         if ($setupObj.meta.server) {
-            $setupObj.meta.server.bsnRegistrationToken = $RegistrationToken
+            $setupObj.meta.server.bsnRegistrationToken = $activeToken
         }
         if ($setupObj.meta.network) {
             $setupObj.meta.network.hostname = $Name
@@ -279,7 +281,7 @@ function New-BsnPlayer {
         return [pscustomobject]@{
             Name              = $Name
             Path              = $dest
-            RegistrationToken = $RegistrationToken
+            RegistrationToken = $activeToken
         }
     }
 }
