@@ -46,8 +46,11 @@ function New-BsnPlayer {
 .PARAMETER Force
     Overwrite the destination folder if it already exists.
 
+.PARAMETER OutResultFile
+    Path to a CSV file. If specified, appends a record of the generated player configuration to this file.
+
 .OUTPUTS
-    [pscustomobject] An object with Name, Path, and RegistrationToken properties.
+    [pscustomobject] An object containing details of the provisioned player.
 
 .EXAMPLE
     New-BsnPlayer -Name 'LobbyPlayer' -SourceFolder '\\server\share\Template' -MacEthernet 'aabbccddeeff'
@@ -103,7 +106,9 @@ function New-BsnPlayer {
 
         [switch] $SkipLargeFiles,
 
-        [switch] $Force
+        [switch] $Force,
+
+        [string] $OutResultFile
     )
 
     process {
@@ -278,10 +283,24 @@ function New-BsnPlayer {
 
         Write-Verbose "Created player '$Name' at $dest"
 
-        return [pscustomobject]@{
+        $outObj = [pscustomobject]@{
             Name              = $Name
-            Path              = $dest
+            SourceFolder      = $SourceFolder
+            DestinationFolder = $dest
             RegistrationToken = $activeToken
+            TokenExpiration   = if ($tokenObj) { $tokenObj.validTo } else { '' }
+            MacEthernet       = $MacEthernet
+            MacWiFi           = $MacWiFi
+            Description       = $Description
+            SSID              = $SSID
+            Timestamp         = (Get-Date -Format 'o')
         }
+
+        if (-not [string]::IsNullOrWhiteSpace($OutResultFile)) {
+            # Ensure directory exists if needed, or rely on Export-Csv to throw if invalid path
+            $outObj | Export-Csv -LiteralPath $OutResultFile -Append -NoTypeInformation -Force
+        }
+
+        return $outObj
     }
 }

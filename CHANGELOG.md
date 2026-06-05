@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.3.5] - 2026-06-05
+### Added
+- Added `-OutResultFile` parameter to `New-BsnPlayer`. This allows appending a detailed CSV record of the provisioned player(s) during execution, which is especially useful for tracking batch provisioning via pipeline input. The CSV record includes device name, source folder, destination folder, registration token, token expiration, MAC addresses, and timestamp.
+
 ## [0.3.4] - 2026-06-05
 ### Fixed
 - Fixed a bug in `New-BsnPlayer` where an auto-fetched Registration Token was accidentally injected into `setup.json` as a full JSON object instead of the raw string.
