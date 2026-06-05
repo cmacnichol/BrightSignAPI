@@ -1,0 +1,3 @@
+Name_BSN,RegistrationToken,Description,UnitNamingMethod,LocalDwsUserName,LocalDwsPassword,EncryptedCertPass,MAC_Ethernet,MAC_WiFi,SSID
+Player01,,Lobby Main Display,unitNameOnly,,,,AABBCCDDEEFF,AABBCCDDEEF0,Corp_WiFi
+Player02,xxyz123,Breakroom TV,unitNameOnly,admin,changeme,encryptedstringabc,112233445566,,Guest_WiFi

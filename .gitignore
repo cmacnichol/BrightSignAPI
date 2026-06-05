@@ -1,0 +1,27 @@
+# PowerShell Test Scripts
+test*.ps1
+replace_messages.ps1
+
+# Specific Testing/Local Files
+setup.json
+*SerialCertMapping*
+*.csv
+!ImportTemplate.csv
+
+# Certificates (may contain sensitive .p12 files)
+Certificates/
+
+# Test output directories
+DummySource/
+TestPlayer/
+  
+# Dev Folders
+dev/
+
+# Work-in-progress notes and research
+.docs-wip/
+ 
+# Local Working Files
+setup.json
+SerialCertMapping.csv
+brightsign-b-deploy-provisioning-apis.md

@@ -1,0 +1,24 @@
+# name: Publish PowerShell Module
+# 
+# on:
+#   push:
+#     tags:
+#       - 'v*' # Trigger on version tags (e.g., v0.2.0)
+# 
+# jobs:
+#   publish:
+#     runs-on: windows-latest
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+# 
+#       - name: Run Pester Tests
+#         run: .\build.ps1 -TestOnly
+#         shell: powershell
+# 
+#       - name: Publish to PSGallery
+#         env:
+#           NUGET_API_KEY: ${{ secrets.PS_GALLERY_KEY }}
+#         run: |
+#           Publish-Module -Path .\src\BrightSignAPI -NuGetApiKey $env:NUGET_API_KEY
+#         shell: powershell
