@@ -59,9 +59,9 @@ function Connect-BsnCloud {
             $netName = if ($net.name) { $net.name } else { $net.id }
             Write-Verbose "Only one network found ($netName). Auto-selecting..."
             if ($net.id) {
-                Select-BsnNetwork -NetworkId $net.id -Connection $script:BsnSession -ErrorAction Stop
+                Select-BsnNetwork -NetworkId $net.id -Connection $script:BsnSession -ErrorAction Stop | Out-Null
             } else {
-                Select-BsnNetwork -NetworkName $net.name -Connection $script:BsnSession -ErrorAction Stop
+                Select-BsnNetwork -NetworkName $net.name -Connection $script:BsnSession -ErrorAction Stop | Out-Null
             }
             Write-Verbose "Network auto-selected successfully."
         } elseif ($networks.Count -gt 1) {

@@ -53,7 +53,6 @@ function New-BsnPlayer {
     New-BsnPlayer -Name 'LobbyPlayer' -SourceFolder '\\server\share\Template' -MacEthernet 'aabbccddeeff'
 #>
     [CmdletBinding(SupportsShouldProcess = $true)]
-    [Alias('New-BSNPlayer')]
     [OutputType([pscustomobject])]
     param(
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]

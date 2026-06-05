@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.3.1] - 2026-06-05
+### Fixed
+- Fixed an issue in `Connect-BsnCloud` where the auto-selected network connection object was being outputted to the pipeline twice.
+- Removed the case-conflicting `New-BSNPlayer` alias which was breaking parameter autocompletion for `New-BsnPlayer` natively in PowerShell.
+
 ## [0.3.0] - 2026-06-04
 ### Added
 - Implemented **B-Deploy Provision Records** support (`Get-BsnProvisionRecord`, `New-BsnProvisionRecord`, `Set-BsnProvisionRecord`, `Remove-BsnProvisionRecord`).
