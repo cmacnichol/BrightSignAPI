@@ -1,76 +1,66 @@
----
-schema: 2.0.0
----
+# Getting Started with BrightSignAPI
 
-# Get-BsnSetupPackage
+Welcome to the `BrightSignAPI` PowerShell module! This module provides a native, object-oriented way to interact with the BSN.cloud REST API and provision BrightSign players using templates.
 
-## SYNOPSIS
-Retrieves B-Deploy setup packages.
+## 1. Installation
 
-## SYNTAX
+You can install the module from the PowerShell Gallery (once published), or import it directly from the source directory:
 
-```
-Get-BsnSetupPackage [[-Id] <String>] [[-Connection] <PSObject>] [<CommonParameters>]
+```powershell
+# From local source
+Import-Module C:\Path\To\BrightSignAPI\src\BrightSignAPI\BrightSignAPI.psd1
 ```
 
-## DESCRIPTION
-Gets setup packages from the B-Deploy Setup API (provision.bsn.cloud/rest-setup/v3/setup/).
-A Setup Package dictates firmware versions, timezones, logging rules, and certificate
-installation for devices provisioned through B-Deploy.
+## 2. Authentication
 
-## EXAMPLES
+Before running any commands, you must authenticate to BSN.cloud using your API credentials.
 
-### EXAMPLE 1
-```
-Get-BsnSetupPackage
+```powershell
+Connect-BsnCloud -ClientId "your-client-id" -ClientSecret "your-client-secret"
 ```
 
-### EXAMPLE 2
-```
-Get-BsnSetupPackage -Id "f2e1d0c9..."
-```
+If your account has access to multiple networks, `Connect-BsnCloud` will prompt you to select one. Alternatively, you can specify it directly:
 
-## PARAMETERS
-
-### -Id
-Unique identifier of the setup package to retrieve.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
+```powershell
+Connect-BsnCloud -ClientId "..." -ClientSecret "..." -Network "My Organization Network"
 ```
 
-### -Connection
-A BsnConnection object returned by Connect-BsnCloud.
-Defaults to the global session.
+The connection token is securely stored in your global PowerShell session, so you don't need to pass it to subsequent cmdlets.
 
-```yaml
-Type: PSObject
-Parameter Sets: (All)
-Aliases:
+## 3. Provisioning a Player
 
-Required: False
-Position: 2
-Default value: $script:BsnSession
-Accept pipeline input: False
-Accept wildcard characters: False
+The primary purpose of this module is to automate the deployment of BrightSign players. Instead of manually using BrightAuthor:connected to generate setup files for every device, you can use `New-BsnPlayer` to clone a "golden" template folder and inject unique properties (Name, Registration Token, MAC Addresses, Certificates) into the `setup.json`.
+
+```powershell
+New-BsnPlayer -Name 'Lobby-Display-01' `
+              -SourceFolder 'C:\Templates\CorporateLobby' `
+              -DestinationRoot 'C:\Deployments\' `
+              -MacEthernet 'AABBCCDDEEFF'
 ```
 
-### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+### Batch Provisioning
 
-## INPUTS
+You can easily provision dozens of players at once by piping a CSV file directly into `New-BsnPlayer`:
 
-## OUTPUTS
+```powershell
+Import-Csv .\players.csv | New-BsnPlayer -SourceFolder 'C:\Templates\CorporateLobby' -OutResultFile 'C:\Deployments\Results.csv'
+```
 
-### System.Management.Automation.PSObject
-## NOTES
+The `-OutResultFile` parameter is highly recommended for batch jobs. It automatically appends a rich CSV record of every generated player, including the freshly requested BSN.cloud registration token and its expiration timestamp.
 
-## RELATED LINKS
+## 4. Managing Devices
+
+You can interact with devices already registered to your BSN.cloud network using standard PowerShell verbs:
+
+```powershell
+# List all devices
+Get-BsnDevice
+
+# Find a specific device by name
+Get-BsnDevice | Where-Object { $_.name -like "*Lobby*" }
+
+# Restart a device
+Restart-BsnDevice -DeviceId 12345
+```
+
+For more details on specific cmdlets, check out the wiki pages for each command!
