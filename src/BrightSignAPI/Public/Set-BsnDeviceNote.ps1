@@ -3,6 +3,9 @@ function Set-BsnDeviceNote {
 .SYNOPSIS
     Updates the administrative notes for a specific device.
 
+.DESCRIPTION
+    Updates the administrative notes for a specific device. This cmdlet interacts directly with the BSN.cloud REST API.
+
 .PARAMETER DeviceId
     The numeric BSN.cloud ID of the device.
 

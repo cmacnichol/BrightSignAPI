@@ -31,6 +31,21 @@ function New-BsnPlayer {
 .PARAMETER EncryptedCertPass
     Pre-encrypted certificate passphrase for EAP-TLS authentication.
 
+.PARAMETER Description
+    A custom description for the player.
+
+.PARAMETER UnitNamingMethod
+    The unit naming method (e.g. 'unitNameOnly' or 'appendUnitIDToUnitName').
+
+.PARAMETER LocalDwsUserName
+    The local Diagnostic Web Server username.
+
+.PARAMETER LocalDwsPassword
+    The local Diagnostic Web Server password.
+
+.PARAMETER SSID
+    The WiFi SSID to connect to if using a wireless network.
+
 .PARAMETER CertificatesDirectory
     Directory containing .p12 certificate files. Defaults to .\Certificates under the module root.
 

@@ -3,6 +3,9 @@ function Get-BsnDeviceModel {
 .SYNOPSIS
     Fetches information about hardware device models supported by BSN.cloud.
 
+.DESCRIPTION
+    Fetches information about hardware device models supported by BSN.cloud. This cmdlet interacts directly with the BSN.cloud REST API.
+
 .PARAMETER Model
     The specific model name (e.g. "XD1034"). If omitted, lists all models.
 

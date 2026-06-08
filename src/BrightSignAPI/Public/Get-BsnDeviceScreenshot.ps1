@@ -3,6 +3,9 @@ function Get-BsnDeviceScreenshot {
 .SYNOPSIS
     Fetches screenshots captured from players.
 
+.DESCRIPTION
+    Fetches screenshots captured from players. This cmdlet interacts directly with the BSN.cloud REST API.
+
 .PARAMETER DeviceId
     The numeric BSN.cloud ID of the device. Omit to fetch for all devices.
 

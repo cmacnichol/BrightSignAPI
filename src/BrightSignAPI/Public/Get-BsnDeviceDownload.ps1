@@ -3,6 +3,9 @@ function Get-BsnDeviceDownload {
 .SYNOPSIS
     Fetches the download logs and progress for a specific device.
 
+.DESCRIPTION
+    Fetches the download logs and progress for a specific device. This cmdlet interacts directly with the BSN.cloud REST API.
+
 .PARAMETER DeviceId
     The numeric BSN.cloud ID of the device.
 

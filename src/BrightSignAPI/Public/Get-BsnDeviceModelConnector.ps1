@@ -3,6 +3,9 @@ function Get-BsnDeviceModelConnector {
 .SYNOPSIS
     Fetches the list of connectors (e.g., HDMI, Audio) supported by a specific BrightSign model.
 
+.DESCRIPTION
+    Fetches the list of connectors (e.g., HDMI, Audio) supported by a specific BrightSign model. This cmdlet interacts directly with the BSN.cloud REST API.
+
 .PARAMETER Model
     The specific model name (e.g. "XD1034").
 

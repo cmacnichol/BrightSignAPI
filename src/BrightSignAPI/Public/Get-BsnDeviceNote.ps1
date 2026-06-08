@@ -3,6 +3,9 @@ function Get-BsnDeviceNote {
 .SYNOPSIS
     Fetches administrative notes for devices.
 
+.DESCRIPTION
+    Fetches administrative notes for devices. This cmdlet interacts directly with the BSN.cloud REST API.
+
 .PARAMETER DeviceId
     The numeric BSN.cloud ID of the device.
 

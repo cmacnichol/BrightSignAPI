@@ -3,6 +3,9 @@ function Get-BsnDeviceOperation {
 .SYNOPSIS
     Fetches the status of bulk operations on devices.
 
+.DESCRIPTION
+    Fetches the status of bulk operations on devices. This cmdlet interacts directly with the BSN.cloud REST API.
+
 .PARAMETER Connection
     A BsnConnection object.
 #>
